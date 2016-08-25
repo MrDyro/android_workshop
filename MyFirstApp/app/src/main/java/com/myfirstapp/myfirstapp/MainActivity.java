@@ -8,8 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.Random;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -18,8 +21,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onClick(final CustomModel model) {
         final Intent intent = new Intent(MainActivity.this,
-                                         AnimalImageActivity.class);
-        intent.putExtra(Constants.IMAGE_RES_ID, model.getImageResId());
+                                         WebViewActivity.class);
+        intent.putExtra(Constants.QUERY, model.getQuery());
         startActivity(intent);
     }
 
@@ -36,21 +39,40 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        final Random random = new Random();
+        final WikipediaApi wikipediaApi = new WikipediaApiManager().createApiEndpoint();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 final String text = input.getText().toString();
 
-                final int imageResId;
-                if (random.nextInt(2) == 0) {
-                    imageResId = R.drawable.cat;
-                } else {
-                    imageResId = R.drawable.dog;
-                }
+                wikipediaApi.fetchSummary(text).enqueue(new Callback<WikipediaApiModel>() {
+                    @Override
+                    public void onFailure(final Call<WikipediaApiModel> call,
+                                          final Throwable t) {
 
-                adapter.addData(new CustomModel(text, imageResId));
+                        Toast.makeText(MainActivity.this, "Ups, something went wrong...",
+                                       Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onResponse(final Call<WikipediaApiModel> call,
+                                           final Response<WikipediaApiModel> response) {
+
+                        try {
+                            final WikipediaApiModel model = response.body();
+                            adapter.addData(new CustomModel(model.getExtract(),
+                                                            model.getThumbnail().getImageUrl(),
+                                                            text));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(MainActivity.this, "Can't find " + text,
+                                           Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+                });
             }
         });
     }

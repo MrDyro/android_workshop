@@ -2,16 +2,25 @@ package com.myfirstapp.myfirstapp;
 
 public class CustomModel {
 
-    private final int imageResId;
+    private final String imageUrl;
+    private final String query;
     private final String text;
 
-    public CustomModel(final String text, int imageResId) {
+    public CustomModel(final String text,
+                       final String imageUrl,
+                       final String query) {
+
         this.text = text;
-        this.imageResId = imageResId;
+        this.imageUrl = imageUrl;
+        this.query = query;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getQuery() {
+        return query;
     }
 
     public String getText() {

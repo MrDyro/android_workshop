@@ -9,8 +9,8 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
         super(new CustomView(context));
     }
 
-    public void setImage(int imageResId) {
-        ((CustomView) itemView).setImage(imageResId);
+    public void setImage(String imageUrl) {
+        ((CustomView) itemView).setImage(imageUrl);
     }
 
     public void setText(final String text) {

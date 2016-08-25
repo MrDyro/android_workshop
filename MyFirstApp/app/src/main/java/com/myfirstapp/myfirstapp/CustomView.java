@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 public class CustomView extends FrameLayout {
 
     private ImageView imageView;
@@ -31,8 +33,8 @@ public class CustomView extends FrameLayout {
         textView = (TextView) view.findViewById(R.id.textView);
     }
 
-    public void setImage(int imageResId) {
-        imageView.setImageResource(imageResId);
+    public void setImage(String imageUrl) {
+        Glide.with(getContext()).load(imageUrl).into(imageView);
     }
 
     public void setText(final String text) {

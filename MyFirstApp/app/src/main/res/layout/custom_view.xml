@@ -12,11 +12,11 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
         android:gravity="center"
         android:text="Hallo World"
-        android:textSize="26dp"/>
+        android:textSize="18dp"/>
 
 </RelativeLayout>

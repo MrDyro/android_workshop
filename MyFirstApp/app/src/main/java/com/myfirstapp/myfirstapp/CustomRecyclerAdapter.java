@@ -30,7 +30,7 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomViewHolder
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         final CustomModel model = data.get(position);
 
-        holder.setImage(model.getImageResId());
+        holder.setImage(model.getImageUrl());
         holder.setText(model.getText());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
